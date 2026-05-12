@@ -91,6 +91,4 @@ const reached =
     },
 };
 
-const originalTick = typeof tick !== "undefined" ? tick : (() => { });
-tick = () => { originalTick(); CHAT.tick(); };
-onPlayerChat = CHAT.onPlayerChat;
+
