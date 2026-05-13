@@ -1,0 +1,3 @@
+class t{
+/**@param{pos}Pos@param{{subtitle?:{color?:string,styling:CustomTextStyling},content:{color?:string,styling:CustomTextStyling}}}styling*/
+constructor(e,s){this.style=s,this.ent=t.create(e,s)}ent;style;static create(e,s){const i=api.attemptCreateMeshEntity("Box",{width:0,height:0,depth:0});return api.setPosition(i,...e),t.setNameTagFromStyling(i,s),i}static setNameTagFromStyling(t,e){api.setTargetedPlayerSettingForEveryone(t,"nameTagInfo",{subtitle:e.subtitle?.styling,subtitleBackgroundColor:e.subtitle?.color,content:e.content?.styling,backgroundColor:e.content?.color},!0)}set styling(e){this.style=e,t.setNameTagFromStyling(this.ent,e)}get styling(){return this.style}}globalThis.Text3D=t;
