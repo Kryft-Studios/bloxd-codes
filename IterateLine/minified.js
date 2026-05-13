@@ -1,0 +1,2 @@
+function r(t,e,o,n){for(let i=1;i<=o;i++)if(n(r.getPos(t,e,i)))return}
+/**@param{Pos}e The Position@param{Vec3}o The Direction@param{number}n The Distance@param{BlockName}i The Target*/function t(e,o,n,i){let l;try{r(e,o,n,([r,e,o])=>{if(l=api.getBlock([r,e,o]),l===i)throw t.err})}catch(r){if(r===t.err)return l;throw r}return null}t.err=new Error("exit"),r.getPos=(r,t,e)=>r.map((r,o)=>Math.floor(r+t[o]*e)),globalThis.raycast=t;
