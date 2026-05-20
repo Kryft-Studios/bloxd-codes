@@ -1,9 +1,9 @@
 
 const CHAT = /**@type{const}*/({
     RANKS:/**@type{const}*/({
-  "DEV": { icon: "wrench", color: "#cef3ff" },       // grayUiText
-  "PEASANT": { icon: "Palm Sapling", color: "#4fed4f" }, // lightBlueUiText
-  "ADMIN": { icon: "user-plus", color: "#ff9d87" },   // redUiText
+  "DEV": { icon: "wrench", color: "#cef3ff" },     
+  "PEASANT": { icon: "user", color: "#4fed4f" },
+  "ADMIN": { icon: "gear", color: "#ff9d87" },
     "OWNER": {icon:"crown",color:"#f3f351"},
         "CLUMSY": {icon:"RPG",color:"green"}
 }),
@@ -36,8 +36,10 @@ a.push({str:"[",style:{color:d.color}},{icon:d.icon,style:{color:d.color}},{str:
     },
     CHATS:[],
     tick(){
-        CHAT.CHATS.forEach(d=>api.broadcastMessage(d))
-        CHAT.CHATS=[]
+        while(CHAT.CHATS[0]&&!api.isNearInterrupt()){
+            api.broadcastMessage(CHAT.CHATS[0])
+            CHAT.CHATS.shift()
+        }
     }
 })
 const originalTick = typeof tick!=="undefined"?tick:(()=>{})
