@@ -1,7 +1,7 @@
 class ISF {
 static queued=[]
 static queue(yieldFn){
-ISF.queued.push(yieldFn())
+ISF.queued.push(yieldFn)
 }
 static tick(){
 while(ISF.queued[0]&&!api.isNearInterrupt()){
