@@ -50,7 +50,7 @@ globalThis.PROMPT = {
     moveCursorUp(myId){
     const dia=PROMPT.dialogues[myId].arr[0].options
     const selectp=PROMPT.selectPrompts[myId]
-    selectp.pos++
+    selectp.pos-- // it actually looks like UP now, not up just for the code
     if(selectp.pos<0)selectp.pos=dia.length-1
     else if(selectp.pos>=dia.length)selectp.pos=0
     return PROMPT.renderCrosshairText(myId,dia,selectp.pos)
@@ -58,7 +58,7 @@ globalThis.PROMPT = {
     moveCursorDown(myId){
     const dia=PROMPT.dialogues[myId].arr[0].options
     const selectp=PROMPT.selectPrompts[myId]
-    selectp.pos--
+    selectp.pos++
     if(selectp.pos<0)selectp.pos=dia.length-1
     else if(selectp.pos>=dia.length)selectp.pos=0
     return PROMPT.renderCrosshairText(myId,dia,selectp.pos)
@@ -99,7 +99,7 @@ globalThis.PROMPT = {
             delete PROMPT.clickPrompts[myId];
             PROMPT.dialogues[myId].isRunningPrompt = false;
 
-            const res = PROMPT.dialogues[myId].arr[0].onClick(myId);
+            const res = PROMPT.dialogues[myId].arr[0]?.onClick(myId);
             if (res) {
                 PROMPT.dialogues[myId].arr = res;
             } else {
@@ -112,7 +112,7 @@ globalThis.PROMPT = {
             api.setClientOptions(myId,{middleTextLower:"","middleTextUpper":"",jumpAmount:selectP.j})
             delete PROMPT.selectPrompts[myId]
             PROMPT.dialogues[myId].isRunningPrompt=false;
-            const res =dia.arr[0].onSelect(myId,dia.arr[0].options[ld]);
+            const res =dia.arr[0]?.onSelect(myId,dia.arr[0].options[ld]);
             if (res) {
                 PROMPT.dialogues[myId].arr = res;
             } else {
