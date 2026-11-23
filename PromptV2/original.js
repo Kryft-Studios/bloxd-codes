@@ -1,3 +1,5 @@
+// write or paste code here
+
 
 export const PROMPT_FRAMEWORK = Object.freeze(/**@type{const}*/{
 MessageType: {
@@ -13,6 +15,7 @@ onPlayerLeave(myId){
 delete PROMPT_FRAMEWORK.queue[myId];
 delete PROMPT_FRAMEWORK.playerMessage[myId]
 delete PROMPT_FRAMEWORK.typewriterEffect[myId]
+delete PROMPT_FRAMEWORK.selectedMessage[myId]
 },
     onPlayerJoin(myId){
         PROMPT_FRAMEWORK.queue[myId]={queued:[]}
@@ -272,7 +275,7 @@ PROMPT_FRAMEWORK.z_endLast(myId, PROMPT_FRAMEWORK.queue[myId])
 }else if(!Number.isNaN(Number(id))&&PROMPT_FRAMEWORK.queue[myId].queued.length>0&&PROMPT_FRAMEWORK.queue[myId].queued[0].currentType===PROMPT_FRAMEWORK.MessageType.OPTION_MESSAGE){
 PROMPT_FRAMEWORK.z_setMessage(myId, PROMPT_FRAMEWORK.queue[myId].queued[0].messages[0], PROMPT_FRAMEWORK.z_createInputMessage(PROMPT_FRAMEWORK.queue[myId].queued[0].messages[0], "\nInput: [ "+PROMPT_FRAMEWORK.queue[myId].queued[0].messages[0].options[Number(id)]+" ]", "Press number keys to select options, or click the option"))
 PROMPT_FRAMEWORK.selectedMessage[myId]=Number(id)
-}else if(id==="ok_om"&&PROMPT_FRAMEWORK.queue[myId].queued.length>0&&PROMPT_FRAMEWORK.queue[myId].queued[0].currentType===PROMPT_FRAMEWORK.MessageType.CLICK_PROMPT){
+}else if(id==="ok_om"&&PROMPT_FRAMEWORK.queue[myId].queued.length>0&&PROMPT_FRAMEWORK.queue[myId].queued[0].currentType===PROMPT_FRAMEWORK.MessageType.OPTION_MESSAGE){
 if(PROMPT_FRAMEWORK.z_endOptionsMessage(myId, PROMPT_FRAMEWORK.queue[myId].queued[0].messages[0])){
 PROMPT_FRAMEWORK.z_endLast(myId, PROMPT_FRAMEWORK.queue[myId])
 }
