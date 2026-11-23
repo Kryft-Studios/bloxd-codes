@@ -171,7 +171,20 @@ return true
 },
 /**@param{MESSAGE}options*/
 z_setMessage(myId, options, message){
-api.setClientOption(myId, options.messageOn??"middleTextLower", message)
+    if(options.messageOn === "dialogue"){
+        if(message === ""){
+            api.setClientOption(myId, "dialogue", null);
+            return;
+        }
+
+        const content = message.content ?? message;
+        api.setClientOption(myId, "dialogue", {
+            line: "",
+            speakerName: content
+        });
+    } else {
+        api.setClientOption(myId, options.messageOn ?? "middleTextLower", message);
+    }
 },
 /**@param{CLICK_MESSAGE}clickMessage*/
 z_beginClickPrompt(myId, options){
@@ -273,7 +286,7 @@ if(PROMPT_FRAMEWORK.z_endInputMessage(myId, PROMPT_FRAMEWORK.queue[myId].queued[
 PROMPT_FRAMEWORK.z_endLast(myId, PROMPT_FRAMEWORK.queue[myId])
 }
 }else if(!Number.isNaN(Number(id))&&PROMPT_FRAMEWORK.queue[myId].queued.length>0&&PROMPT_FRAMEWORK.queue[myId].queued[0].currentType===PROMPT_FRAMEWORK.MessageType.OPTION_MESSAGE){
-PROMPT_FRAMEWORK.z_setMessage(myId, PROMPT_FRAMEWORK.queue[myId].queued[0].messages[0], PROMPT_FRAMEWORK.z_createInputMessage(PROMPT_FRAMEWORK.queue[myId].queued[0].messages[0], "\nInput: [ "+PROMPT_FRAMEWORK.queue[myId].queued[0].messages[0].options[Number(id)]+" ]", "Press number keys to select options, or click the option"))
+PROMPT_FRAMEWORK.z_setMessage(myId, PROMPT_FRAMEWORK.queue[myId].queued[0].messages[0], PROMPT_FRAMEWORK.z_createInputMessage(PROMPT_FRAMEWORK.queue[myId].queued[0].messages[0], "\nSelected: [ "+PROMPT_FRAMEWORK.queue[myId].queued[0].messages[0].options[Number(id)]+" ]", "Press number keys to select options, or click the option"))
 PROMPT_FRAMEWORK.selectedMessage[myId]=Number(id)
 }else if(id==="ok_om"&&PROMPT_FRAMEWORK.queue[myId].queued.length>0&&PROMPT_FRAMEWORK.queue[myId].queued[0].currentType===PROMPT_FRAMEWORK.MessageType.OPTION_MESSAGE){
 if(PROMPT_FRAMEWORK.z_endOptionsMessage(myId, PROMPT_FRAMEWORK.queue[myId].queued[0].messages[0])){
@@ -337,7 +350,7 @@ message: string | CustomTextStyling | TextWithDisplayOptions,
 time: number,
 onDone?:(myId: string)=> void|MESSAGES,
 onStart?:(myId: string, a: TAKE_BACK_HELPER)=> void |  TAKEBACK_RESULT,
-messageOn?: "middleTextLower" | "middleTextTop" | "middleTextUpper",
+messageOn?: "middleTextLower" | "middleTextTop" | "middleTextUpper" | "dialogue",
 type: PROMPT_FRAMEWORK["MessageType"]["STANDARD_MESSAGE"]
 typewritted?:boolean
 }} STANDARD_MESSAGE
@@ -345,14 +358,14 @@ typewritted?:boolean
 message: string | CustomTextStyling | TextWithDisplayOptions,
 onStart?:(myId: string, a: TAKE_BACK_HELPER)=> void |  TAKEBACK_RESULT,
 onDone?:(myId: string, a: TAKE_BACK_HELPER, res: string)=>void|TAKEBACK_RESULT|MESSAGES,
-messageOn?: "middleTextLower" | "middleTextTop" | "middleTextUpper",
+messageOn?: "middleTextLower" | "middleTextTop" | "middleTextUpper" | "dialogue",
 type: PROMPT_FRAMEWORK["MessageType"]["INPUT_MESSAGE"],
 }} INPUT_MESSAGE
 @typedef {{
 message: string | CustomTextStyling | TextWithDisplayOptions,
 onStart?:(myId: string, a: TAKE_BACK_HELPER)=> void |  TAKEBACK_RESULT,
 onDone?:(myId: string, a: TAKE_BACK_HELPER, res: string)=>void|TAKEBACK_RESULT|MESSAGES,
-messageOn?: "middleTextLower" | "middleTextTop" | "middleTextUpper",
+messageOn?: "middleTextLower" | "middleTextTop" | "middleTextUpper" | "dialogue",
 type: PROMPT_FRAMEWORK["MessageType"]["OPTION_MESSAGE"],
 options: string[],
 }} OPTIONS_PROMPT
@@ -360,7 +373,7 @@ options: string[],
 message: string | CustomTextStyling | TextWithDisplayOptions,
 onStart?:(myId: string, a: TAKE_BACK_HELPER)=> void |  TAKEBACK_RESULT,
 onDone?:(myId: string, a: TAKE_BACK_HELPER)=>void|TAKEBACK_RESULT|MESSAGES,
-messageOn?: "middleTextLower" | "middleTextTop" | "middleTextUpper",
+messageOn?: "middleTextLower" | "middleTextTop" | "middleTextUpper" | "dialogue",
 type: PROMPT_FRAMEWORK["MessageType"]["CLICK_PROMPT"],
 typewritted?: boolean
 }} CLICK_MESSAGE
